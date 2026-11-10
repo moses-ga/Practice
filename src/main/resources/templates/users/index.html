@@ -1,0 +1,258 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<th:block layout:fragment="title">
+    <title>Users</title>
+</th:block>
+<body>
+
+<div layout:fragment="page-header">
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <div class="d-flex align-items-baseline mr-5">
+                    <h5 class="text-dark font-weight-bold my-2 mr-5">Home</h5>
+                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0)" class="text-muted">Users</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="content">
+
+    <div class="card card-custom gutter-b">
+        <div class="card-header flex-wrap">
+            <div class="card-title">
+                <h3 class="card-label">All Users</h3>
+            </div>
+            <div class="card-toolbar">
+                <button type="button" data-toggle="modal" data-target="#addModal" id="addButton"
+                        class="btn btn-light-primary btn-sm">
+                    <span class="la la-plus"></span> New User
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin: Datatable -->
+            <div class="table-responsive">
+                <table class="table table-head-custom rounded border table-checkable dataTable" id="users-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <!--end: Datatable -->
+        </div>
+
+        <!--begin: Add modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">New User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:action="@{/users/store}" method="POST" id="add-user-form" th:object="${userObj}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name">Name <span class="text-danger">*</span></label>
+                                <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email <span class="text-danger">*</span></label>
+                                <input type="email" id="email" class="form-control" th:field="*{email}" placeholder="name@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text" id="phone" class="form-control" th:field="*{phone}" placeholder="07XXXXXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" class="form-control" th:field="*{address}" placeholder="City, street">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="fa fa-check-circle-o"></span> Confirm
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end: Add modal -->
+
+        <!--begin: Edit modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:action="@{/users/update}" method="POST" id="edit-user-form">
+                        <input type="hidden" name="id" id="edit-id">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="edit-name">Name <span class="text-danger">*</span></label>
+                                <input type="text" id="edit-name" name="name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">Email <span class="text-danger">*</span></label>
+                                <input type="email" id="edit-email" name="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-phone">Phone</label>
+                                <input type="text" id="edit-phone" name="phone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-address">Address</label>
+                                <input type="text" id="edit-address" name="address" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-status">Status</label>
+                                <select id="edit-status" name="isActive" class="form-control">
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="fa fa-check-circle-o"></span> Confirm
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end: Edit modal -->
+    </div>
+
+</div>
+
+<th:block layout:fragment="script">
+    <!-- th:inline="none": the DataTables config below contains double square brackets, which Thymeleaf would otherwise treat as an inline expression -->
+    <script th:inline="none">
+        $(".nav-users").addClass("menu-item-active");
+
+        function escapeHtml(value) {
+            return $('<div>').text(value == null ? '' : value).html();
+        }
+
+        var table;
+        $(document).ready(function () {
+            table = $('#users-table').DataTable({
+                ajax: '/api/users/list',
+                serverSide: true,
+                processing: true,
+                language: {
+                    processing: '<i style="color:#3C8DBC" class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>'
+                },
+                columns: [
+                    {data: 'name', render: escapeHtml},
+                    {data: 'email', render: escapeHtml},
+                    {data: 'phone', render: function (data) { return data ? escapeHtml(data) : '-'; }},
+                    {data: 'address', render: function (data) { return data ? escapeHtml(data) : '-'; }},
+                    {
+                        data: 'isActive', searchable: false,
+                        render: function (data) {
+                            return data
+                                ? '<span class="label label-inline label-light-success label-pill">Active</span>'
+                                : '<span class="label label-inline label-light-danger label-pill">Inactive</span>';
+                        }
+                    },
+                    {
+                        data: 'createdAt', searchable: false,
+                        render: function (data, type, row) { return row.formattedCreatedAt || '-'; }
+                    },
+                    {
+                        data: 'id', searchable: false, orderable: false,
+                        render: function (data) {
+                            return '<div class="dropdown">' +
+                                '  <button class="btn btn-light-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>' +
+                                '  <div class="dropdown-menu">' +
+                                '    <a href="javascript:void(0)" class="dropdown-item btn-edit" data-id="' + data + '">Edit</a>' +
+                                '    <a href="/users/delete/' + data + '" class="dropdown-item btn-delete">Delete</a>' +
+                                '  </div>' +
+                                '</div>';
+                        }
+                    }
+                ],
+                order: [ [5, 'desc'] ]
+            });
+        });
+
+        // Edit: fill the modal from the row data. The row is looked up by id in the table data
+        // (not via closest("tr")) because the theme moves the open dropdown menu out of the row.
+        $(document).on('click', '.btn-edit', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var row = table.rows().data().toArray().find(function (r) { return r.id === id; });
+            if (!row) { return; }
+            $('#edit-id').val(row.id);
+            $('#edit-name').val(row.name);
+            $('#edit-email').val(row.email);
+            $('#edit-phone').val(row.phone || '');
+            $('#edit-address').val(row.address || '');
+            $('#edit-status').val(row.isActive ? 'true' : 'false');
+            $('#editModal').modal('show');
+        });
+
+        // Delete: confirm first
+        $(document).on('click', '.btn-delete', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This user will be deleted!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff1533',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonColor: '#06c4ff',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then(function (result) {
+                if (result.value || result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        });
+
+        // Client-side validation
+        $(document).ready(function () {
+            var rules = {
+                name: {required: true, minlength: 2},
+                email: {required: true, email: true},
+                phone: {digits: true, minlength: 10, maxlength: 13}
+            };
+            var messages = {
+                name: {required: "Name is required"},
+                email: {required: "Email is required", email: "Enter a valid email"},
+                phone: {digits: "Phone must contain digits only", minlength: "Phone must be at least 10 digits", maxlength: "Phone must be at most 13 digits"}
+            };
+            $('#add-user-form').validate({ignore: ":not(:visible)", rules: rules, messages: messages});
+            $('#edit-user-form').validate({ignore: ":not(:visible)", rules: rules, messages: messages});
+        });
+    </script>
+</th:block>
+</body>
+</html>

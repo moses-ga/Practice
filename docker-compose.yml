@@ -1,0 +1,25 @@
+# Local PostgreSQL for this project only.
+#   docker compose up -d      start
+#   docker compose down       stop (data kept in the named volume)
+#   docker compose down -v    stop and wipe the data
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: learning-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: learning
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5435:5432"
+    volumes:
+      - learning_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d learning"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  learning_pgdata:

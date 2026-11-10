@@ -1,0 +1,58 @@
+:root {
+    --color-green: #18B972;
+}
+
+.card-through {
+    background-color: rgb(255 255 255 / 90%) !important;
+}
+
+.shadow {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%) !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.form-control:focus, select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--multiple, .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--color-green) !important;
+    box-shadow: 0 0 0 3px rgb(105 255 220 / 25%) !important;
+}
+
+.bg-green {
+    background-color: var(--color-green) !important;
+}
+
+.border-green {
+    border-color: var(--color-green) !important;
+}
+
+.text-green {
+    color: var(--color-green) !important;
+}
+
+.checkbox > input:checked ~ span {
+    background-color: var(--color-green) !important;
+}
+
+.input-group .select2-container--default .select2-selection--single {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.input-group .select2-container {
+    width: 80% !important;
+}
+
+.badge-deep-green {
+    color: #fff;
+    background-color: #00c853;
+}
+
+.pac-container {
+    z-index: 10000 !important;
+}

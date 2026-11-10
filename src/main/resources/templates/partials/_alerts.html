@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="alerts">
+    <div th:if="${success}"
+         class="alert alert-custom alert-notice my-3 alert-outline-success bg-white fade show rounded-0" role="alert">
+        <div class="alert-icon"><i class="la la-check-circle"></i></div>
+        <div class="alert-text"><span th:text="${success}"></span></div>
+        <div class="alert-close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="ki ki-close"></i></span>
+            </button>
+        </div>
+    </div>
+
+    <div th:if="${error}"
+         class="alert alert-custom alert-notice my-3 alert-outline-danger bg-white fade show rounded-0" role="alert">
+        <div class="alert-icon"><i class="flaticon-warning"></i></div>
+        <div class="alert-text"><span th:text="${error}"></span></div>
+        <div class="alert-close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="ki ki-close"></i></span>
+            </button>
+        </div>
+    </div>
+
+    <div th:if="${warning}"
+         class="alert alert-custom alert-notice my-3 alert-outline-warning bg-white fade show rounded-0" role="alert">
+        <div class="alert-icon"><i class="flaticon-warning"></i></div>
+        <div class="alert-text"><span th:text="${warning}"></span></div>
+        <div class="alert-close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="ki ki-close"></i></span>
+            </button>
+        </div>
+    </div>
+
+    <div th:if="${info}"
+         class="alert alert-custom alert-notice my-3 alert-outline-info bg-white fade show rounded-0" role="alert">
+        <div class="alert-icon"><i class="flaticon-information"></i></div>
+        <div class="alert-text"><span th:text="${info}"></span></div>
+        <div class="alert-close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="ki ki-close"></i></span>
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

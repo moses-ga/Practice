@@ -1,0 +1,129 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<th:block layout:fragment="title">
+    <title>Dashboard</title>
+</th:block>
+<body>
+
+<div layout:fragment="page-header">
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <div class="d-flex align-items-baseline mr-5">
+                    <h5 class="text-dark font-weight-bold my-2 mr-5">Home</h5>
+                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0)" class="text-muted">Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="content">
+
+    <!--begin::Stats-->
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <a th:href="@{/users/index}" class="card card-custom bg-light-primary card-stretch gutter-b">
+                <div class="card-body">
+                    <i class="flaticon-users text-primary icon-3x"></i>
+                    <div class="text-primary font-weight-bolder font-size-h2 mt-3" th:text="${stats.totalUsers}">0</div>
+                    <div class="text-primary font-weight-bold font-size-lg mt-1">Total Users</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-custom bg-light-success card-stretch gutter-b">
+                <div class="card-body">
+                    <i class="flaticon2-check-mark text-success icon-3x"></i>
+                    <div class="text-success font-weight-bolder font-size-h2 mt-3" th:text="${stats.activeUsers}">0</div>
+                    <div class="text-success font-weight-bold font-size-lg mt-1">Active Users</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-custom bg-light-danger card-stretch gutter-b">
+                <div class="card-body">
+                    <i class="flaticon2-cancel text-danger icon-3x"></i>
+                    <div class="text-danger font-weight-bolder font-size-h2 mt-3" th:text="${stats.inactiveUsers}">0</div>
+                    <div class="text-danger font-weight-bold font-size-lg mt-1">Inactive Users</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-custom bg-light-warning card-stretch gutter-b">
+                <div class="card-body">
+                    <i class="flaticon2-calendar-2 text-warning icon-3x"></i>
+                    <div class="text-warning font-weight-bolder font-size-h2 mt-3" th:text="${stats.newToday}">0</div>
+                    <div class="text-warning font-weight-bold font-size-lg mt-1">New Today</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Stats-->
+
+    <!--begin::Recent users-->
+    <div class="card card-custom gutter-b">
+        <div class="card-header border-0 py-5">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label font-weight-bolder text-dark">Recent Users</span>
+                <span class="text-muted mt-3 font-weight-bold font-size-sm">Last 5 users added</span>
+            </h3>
+            <div class="card-toolbar">
+                <a th:href="@{/users/index}" class="btn btn-light-primary font-weight-bolder font-size-sm">
+                    <span class="la la-users"></span> Manage Users
+                </a>
+            </div>
+        </div>
+        <div class="card-body py-0">
+            <div class="table-responsive">
+                <table class="table table-head-custom table-vertical-center">
+                    <thead>
+                    <tr class="text-left">
+                        <th class="pl-0" style="min-width: 150px">Name</th>
+                        <th style="min-width: 150px">Email</th>
+                        <th style="min-width: 110px">Phone</th>
+                        <th style="min-width: 110px">Status</th>
+                        <th style="min-width: 140px">Created At</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(recentUsers)}">
+                        <td colspan="5" class="text-center text-muted py-10">
+                            No users yet. <a th:href="@{/users/index}">Add the first one</a>.
+                        </td>
+                    </tr>
+                    <tr th:each="u : ${recentUsers}">
+                        <td class="pl-0">
+                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg" th:text="${u.name}"></span>
+                            <span class="text-muted font-weight-bold" th:text="${u.address} ?: '-'"></span>
+                        </td>
+                        <td><span class="text-dark-75 font-weight-bold" th:text="${u.email}"></span></td>
+                        <td><span class="text-dark-75 font-weight-bold" th:text="${u.phone} ?: '-'"></span></td>
+                        <td>
+                            <span th:if="${u.isActive}" class="label label-lg label-light-success label-inline">Active</span>
+                            <span th:unless="${u.isActive}" class="label label-lg label-light-danger label-inline">Inactive</span>
+                        </td>
+                        <td><span class="text-muted font-weight-bold" th:text="${u.formattedCreatedAt()}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--end::Recent users-->
+
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        $(".nav-dashboard").addClass("menu-item-active");
+    </script>
+</th:block>
+</body>
+</html>
