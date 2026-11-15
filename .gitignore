@@ -36,3 +36,6 @@ build/
 logs/
 uploads/
 node_modules/
+
+flyway.conf
+src/main/resources/application-dev.properties
