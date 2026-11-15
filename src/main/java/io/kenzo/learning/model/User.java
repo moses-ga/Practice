@@ -3,6 +3,7 @@ package io.kenzo.learning.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -36,4 +37,9 @@ public class User extends BaseEntity {
 
     @Size(max = 255, message = "Address is too long")
     private String address;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @Size(max = 255)
+    private String password;
 }
